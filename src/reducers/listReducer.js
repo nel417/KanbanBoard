@@ -4,36 +4,15 @@ import {
 
 let listId = 2
 let cardId = 5
-const initialState = [{
-    title: "Last Episode",
-    id: `list-${0}`,
-    cards: [{
-        id: `card-${0}`,
-        text: "we created a list"
-      },
-      {
-        id: `card-${1}`,
-        text: "we created another"
-      }
-    ]
-  },
-  {
-    title: "Next Episode",
-    id: `list-${1}`,
-    cards: [{
-        id: `card-${2}`,
-        text: "a;sdjf;oadjsf"
-      },
-      {
-        id: `card-${3}`,
-        text: "we created another haha poppashdf;l;ldsf"
-      },
-      {
-        id: `card-${4}`,
-        text: "butt hahahag"
-      }
-    ]
-  }
+const initialState = [
+  // title: "Todo",
+  // id: `list-${0}`,
+  // cards: [{
+  //     id: `card-${0}`,
+  //     text: "Welcome. Click add a new list to the right to make a new list. oh you can drag and d "
+  //   },
+
+  // ]
 ];
 
 
@@ -48,7 +27,7 @@ const listReducer = (state = initialState, action) => {
       listId += 1
       return [...state, newList]
 
-    case CONSTANTS.ADD_CARD:
+    case CONSTANTS.ADD_CARD: {
       const newCard = {
         text: action.payload.text,
         id: `card-${cardId}`
@@ -65,6 +44,35 @@ const listReducer = (state = initialState, action) => {
           return list
         }
       })
+      return newState
+    }
+    case CONSTANTS.DRAG_HAPENED:
+      const {
+        droppableIdStart,
+        droppableIdEnd,
+        droppableIndexStart,
+        droppableIndexEnd,
+      } = action.payload;
+
+      const newState = [...state]
+      //same list
+      if (droppableIdStart === droppableIdEnd) {
+        const list = state.find(list => droppableIdStart === list.id)
+        const card = list.cards.splice(droppableIndexStart, 1)
+        list.cards.splice(droppableIndexEnd, 0, ...card)
+      }
+
+
+      if (droppableIdStart !== droppableIdEnd) {
+        const listStart = state.find(list => droppableIdStart === list.id)
+        const card = listStart.cards.splice(droppableIndexStart, 1)
+        const listEnd = state.find(list => droppableIdEnd === list.id)
+        listEnd.cards.splice(droppableIndexEnd, 0, ...card)
+
+      }
+
+
+
       return newState
     default:
       return state;
