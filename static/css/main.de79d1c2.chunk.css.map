@@ -1,0 +1,1 @@
+{"version":3,"sources":["App.css"],"names":[],"mappings":"AAAA,EACI,SAAU,CACV,QAAS,CACT,QAGJ,CAEA,KACI,uDACJ","file":"main.de79d1c2.chunk.css","sourcesContent":["* {\n    padding: 0;\n    margin: 0;\n    border: 0;\n\n\n}\n\nbody {\n    background-image: linear-gradient(to right, #4AB8DE, #3983DF);\n}"]}
